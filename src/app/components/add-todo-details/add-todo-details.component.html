@@ -1,0 +1,86 @@
+<div *ngIf="viewMode; else editable">
+    <div *ngIf="currentTodo.id">
+      <h4>Todo</h4>
+      <div>
+        <label><strong>Title:</strong></label> {{ currentTodo.title }}
+      </div>
+      <div>
+        <label><strong>Description:</strong></label>
+        {{ currentTodo.description }}
+      </div>
+      <div>
+        <label><strong>Status:</strong></label>
+        {{ currentTodo.published ? "Published" : "Pending" }}
+      </div>
+      <a
+        class="btn btn-warning"
+        routerLink="/todo/{{ currentTodo.id }}"
+      >
+        Edit
+      </a>
+    </div>
+    <div *ngIf="!currentTodo">
+      <br />
+      <p>Please click on a Todo...</p>
+    </div>
+  </div>
+  <ng-template #editable>
+    <div *ngIf="currentTodo.id" class="edit-form">
+      <h4>Tutorial</h4>
+      <form>
+        <div class="form-group mb-3">
+          <label for="title" class="mb-2">Title</label>
+          <input
+            type="text"
+            class="form-control"
+            id="title"
+            [(ngModel)]="currentTodo.title"
+            name="title"
+          />
+        </div>
+        <div class="form-group mb-3">
+          <label for="description" class="mb-2">Description</label>
+          <input
+            type="text"
+            class="form-control"
+            id="description"
+            [(ngModel)]="currentTodo.description"
+            name="description"
+          />
+        </div>
+        <div class="form-group mb-5">
+          <label><strong>Status:</strong></label>
+          {{ currentTodo.published ? "Published" : "Pending" }}
+        </div>
+      </form>
+      <button
+        class="btn btn-primary me-2 mb-2"
+        *ngIf="currentTodo.published"
+        (click)="updatePublished(false)"
+      >
+        UnPublish
+      </button>
+      <button
+        *ngIf="!currentTodo.published"
+        class="btn btn-primary me-2 mb-2"
+        (click)="updatePublished(true)"
+      >
+        Publish
+      </button>
+      <button class="btn btn-danger me-2 mb-2" (click)="deleteTutorial()">
+        Delete
+      </button>
+      <button
+        type="submit"
+        class="btn btn-success mb-2"
+        (click)="updateTutorial()"
+      >
+        Update
+      </button>
+      <p>{{ message }}</p>
+    </div>
+    <div *ngIf="!currentTodo.id">
+      <br />
+      <p>Cannot access this Tutorial...</p>
+    </div>
+  </ng-template>
